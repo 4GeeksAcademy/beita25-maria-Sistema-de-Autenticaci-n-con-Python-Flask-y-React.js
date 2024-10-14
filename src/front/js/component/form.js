@@ -1,13 +1,19 @@
-import React, { useState } from "react";  
+import React, { useState, useContext } from "react";
+import { Context } from "../store/appContext";
+
 
 const Form = () => {
+    const { store, actions } = useContext(Context);
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     function senData(e) {
         e.preventDefault();
         console.log('sen data');
-        console.log('email:', email, 'password:', password);
+        console.log(email, password);
+
+        actions.login()
 
         const requestOptions = {
             method: 'POST',
@@ -18,6 +24,7 @@ const Form = () => {
                 "password":password
                 }
             )
+
         };
         fetch(process.env.BACKEND_URL + "/api/login", requestOptions)
             .then(response => response.json())
